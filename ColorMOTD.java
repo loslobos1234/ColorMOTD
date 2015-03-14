@@ -17,7 +17,7 @@ public class ColorMotd extends JavaPlugin implements Listener{
 		// Registers initializations for startup.
 		Bukkit.getServer().getPluginManager().registerEvents(this, this); // Registers events.
 		getConfig().options().copyDefaults(true); // Saves default configuration file.
-		saveConfig(); // Saves edited configuration file.
+		saveDefaultConfig(); // Saves edited configuration file.
 	}
 	
 	@Override
