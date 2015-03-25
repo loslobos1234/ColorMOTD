@@ -1,6 +1,5 @@
 package com.loslobos1234.colormotd;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -15,7 +14,7 @@ public class ColorMotd extends JavaPlugin implements Listener{
 	@Override
 	public void onEnable(){
 		// Registers initializations for startup.
-		Bukkit.getServer().getPluginManager().registerEvents(this, this); // Registers events.
+		getServer().getPluginManager().registerEvents(this, this); // Registers events.
 		getConfig().options().copyDefaults(true); // Saves default configuration file.
 		saveDefaultConfig(); // Saves edited configuration file.
 	}
@@ -40,9 +39,7 @@ public class ColorMotd extends JavaPlugin implements Listener{
 				sender.sendMessage(ChatColor.RED + "/cmotd set <motd>");
 				return true;
 			}else{
-				if(!(args[0].equalsIgnoreCase("set"))){
-					sender.sendMessage(ChatColor.RED + "/cmotd set <motd>");
-				}else{
+				if(args[0].equalsIgnoreCase("set")){
 					
 					// Checks for Command Length example: /<command> args[0] args[1] args[2] etc...
 					
@@ -101,6 +98,9 @@ public class ColorMotd extends JavaPlugin implements Listener{
 					}
 				}
 			}
+		}else if(cmd.getName().equalsIgnoreCase("cmotdrl")){
+			reloadConfig(); // Reloads config.
+			sender.sendMessage(ChatColor.GOLD + "Config Reloaded!"); // Sends player a notification.
 		}
 		
 		return true;
@@ -109,9 +109,12 @@ public class ColorMotd extends JavaPlugin implements Listener{
 	
 	@EventHandler // Required to be put above an event to tell Bukkit : "Hey this is an event and you need to run it!".
 	public void onServerListPing(ServerListPingEvent e){
-	  String motd = getConfig().getString("motd"); // Gets MOTD from configuration file.
-		motd = motd.replaceAll("&", "\u00A7"); // Replaces & with \u00A7 so the MOTD supports colors.
-		e.setMotd(motd); // Sets MOTD.
+	    String motd = getConfig().getString("motd"); // Gets MOTD from configuration file.
+	    motd = motd.replaceAll("%onlineplayers%", String.valueOf(e.getNumPlayers())); // replaces %onlineplayers% with the playercount in realtime!
+	    motd = motd.replaceAll("%maxplayers%", String.valueOf(e.getMaxPlayers())); // replaces %maxplayers% with the server player cap!
+	    motd = motd.replaceAll("%ip%", e.getAddress().toString()); // replaces %ip% with the server raw ip!
+            motd = motd.replaceAll("&", "\u00A7"); // Replaces & with \u00A7 so the MOTD supports colors.
+            e.setMotd(motd); // Sets MOTD.
 		
 	}
 }
