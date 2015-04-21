@@ -1,5 +1,6 @@
 package com.loslobos1234.colormotd;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -110,6 +111,8 @@ public class ColorMotd extends JavaPlugin implements Listener{
 	@EventHandler // Required to be put above an event to tell Bukkit : "Hey this is an event and you need to run it!".
 	public void onServerListPing(ServerListPingEvent e){
 	    String motd = getConfig().getString("motd"); // Gets MOTD from configuration file.
+	    motd = motd.replaceFirst("%newline%", "\n"); // Replaces %nl% variable with a line break.
+	    motd = motd.replaceAll("%servername%", Bukkit.getServerName()); // Replaces %servername% variable with the server name.
 	    motd = motd.replaceAll("%onlineplayers%", String.valueOf(e.getNumPlayers())); // replaces %onlineplayers% with the playercount in realtime!
 	    motd = motd.replaceAll("%maxplayers%", String.valueOf(e.getMaxPlayers())); // replaces %maxplayers% with the server player cap!
 	    motd = motd.replaceAll("%ip%", e.getAddress().toString()); // replaces %ip% with the server raw ip!
