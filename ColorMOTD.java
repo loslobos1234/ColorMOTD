@@ -25,8 +25,6 @@ public class ColorMotd extends JavaPlugin implements Listener{
 		saveConfig(); // Saves edited configuration file.
 	}
 	
-	
-	
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args){
 		
@@ -36,67 +34,25 @@ public class ColorMotd extends JavaPlugin implements Listener{
 		} 
 		
 		if(cmd.getName().equalsIgnoreCase("cmotd")){ // Checks if the command is sent, initialized.
-			if(args.length < 2){
+			if(args.length < 1){
 				sender.sendMessage(ChatColor.RED + "/cmotd set <motd>");
 				return true;
 			}else{
 				if(args[0].equalsIgnoreCase("set")){
+
+					StringBuilder sb = new StringBuilder();
 					
-					// Checks for Command Length example: /<command> args[0] args[1] args[2] etc...
-					
-					if(args.length == 2){
-						String motd = args[1]; // Gets the MOTD from the command.
-						getConfig().set("motd", motd); // Saves the MOTD into configuration file.
-						saveConfig(); // Saves configuration file.
-						sender.sendMessage(ChatColor.GREEN + "MOTD successfully set to: " + ChatColor.RESET + motd); // Sends sender confirmation message.
-					}else if(args.length == 3){
-						String motd = args[1]+" "+args[2]; // Gets the MOTD from the command.
-						getConfig().set("motd", motd); // Saves the MOTD into configuration file.
-						saveConfig(); // Saves configuration file.
-						sender.sendMessage(ChatColor.GREEN + "MOTD successfully set to: " + ChatColor.RESET + motd); // Sends sender confirmation message.
-					}else if(args.length == 4){
-						String motd = args[1]+" "+args[2]+" "+args[3]; // Gets the MOTD from the command.
-						getConfig().set("motd", motd); // Saves the MOTD into configuration file.
-						saveConfig(); // Saves configuration file.
-						sender.sendMessage(ChatColor.GREEN + "MOTD successfully set to: " + ChatColor.RESET + motd); // Sends sender confirmation message.
-					}else if(args.length == 5){
-						String motd = args[1]+" "+args[2]+" "+args[3]+" "+args[4]; // Gets the MOTD from the command.
-						getConfig().set("motd", motd); // Saves the MOTD into configuration file.
-						saveConfig(); // Saves configuration file.
-						sender.sendMessage(ChatColor.GREEN + "MOTD successfully set to: " + ChatColor.RESET + motd); // Sends sender confirmation message.
-					}else if(args.length == 6){
-						String motd = args[1]+" "+args[2]+" "+args[3]+" "+args[4]+" "+args[5]; // Gets the MOTD from the command.
-						getConfig().set("motd", motd); // Saves the MOTD into configuration file.
-						saveConfig(); // Saves configuration file.
-						sender.sendMessage(ChatColor.GREEN + "MOTD successfully set to: " + ChatColor.RESET + motd); // Sends sender confirmation message.
-					}else if(args.length == 7){
-						String motd = args[1]+" "+args[2]+" "+args[3]+" "+args[4]+" "+args[5]+" "+args[6]; // Gets the MOTD from the command.
-						getConfig().set("motd", motd); // Saves the MOTD into configuration file.
-						saveConfig(); // Saves configuration file.
-						sender.sendMessage(ChatColor.GREEN + "MOTD successfully set to: " + ChatColor.RESET + motd); // Sends sender confirmation message.
-					}else if(args.length == 8){
-						String motd = args[1]+" "+args[2]+" "+args[3]+" "+args[4]+" "+args[5]+" "+args[6]+" "+args[7]; // Gets the MOTD from the command
-						getConfig().set("motd", motd); // Saves the MOTD into configuration file.
-						saveConfig(); // Saves configuration file.
-						sender.sendMessage(ChatColor.GREEN + "MOTD successfully set to: " + ChatColor.RESET + motd); // Sends sender confirmation message.
-					}else if(args.length == 9){
-						String motd = args[1]+" "+args[2]+" "+args[3]+" "+args[4]+" "+args[5]+" "+args[6]+" "+args[7]+" "+args[8]; // Gets the MOTD from the command
-						getConfig().set("motd", motd); // Saves the MOTD into configuration file.
-						saveConfig(); // Saves configuration file.
-						sender.sendMessage(ChatColor.GREEN + "MOTD successfully set to: " + ChatColor.RESET + motd); // Sends sender confirmation message.
-					}else if(args.length == 10){
-						String motd = args[1]+" "+args[2]+" "+args[3]+" "+args[4]+" "+args[5]+" "+args[6]+" "+args[7]+" "+args[8]+" "+args[9]; // Gets the MOTD from the command
-						getConfig().set("motd", motd); // Saves the MOTD into configuration file.
-						saveConfig(); // Saves configuration file.
-						sender.sendMessage(ChatColor.GREEN + "MOTD successfully set to: " + ChatColor.RESET + motd); // Sends sender confirmation message.
-					}else if(args.length == 11){
-						String motd = args[1]+" "+args[2]+" "+args[3]+" "+args[4]+" "+args[5]+" "+args[6]+" "+args[7]+" "+args[8]+" "+args[9]+" "+args[10]; // Gets the MOTD from the command
-						getConfig().set("motd", motd); // Saves the MOTD into configuration file.
-						saveConfig(); // Saves configuration file.
-						sender.sendMessage(ChatColor.GREEN + "MOTD successfully set to: " + ChatColor.RESET + motd); // Sends sender confirmation message.
-					}else if(args.length == 12){
-						sender.sendMessage(ChatColor.RED + "Too many arguments, maximum 10 words allowed in an motd!"); // Sends sender Error message.
+					for(int i=1;i<args.length;i++){
+						sb.append(args[i]);
+						sb.append(" ");
 					}
+					
+					String res = sb.toString();
+				
+					getConfig().set("motd", res);
+					saveConfig();
+					sender.sendMessage(ChatColor.GOLD + "MOTD set to: " + ChatColor.RESET + res + ChatColor.GOLD + " !");
+					
 				}
 			}
 		}else if(cmd.getName().equalsIgnoreCase("cmotdrl")){
@@ -116,8 +72,8 @@ public class ColorMotd extends JavaPlugin implements Listener{
 	    motd = motd.replaceAll("%onlineplayers%", String.valueOf(e.getNumPlayers())); // replaces %onlineplayers% with the playercount in realtime!
 	    motd = motd.replaceAll("%maxplayers%", String.valueOf(e.getMaxPlayers())); // replaces %maxplayers% with the server player cap!
 	    motd = motd.replaceAll("%ip%", e.getAddress().toString()); // replaces %ip% with the server raw ip!
-            motd = motd.replaceAll("&", "\u00A7"); // Replaces & with \u00A7 so the MOTD supports colors.
-            e.setMotd(motd); // Sets MOTD.
+        motd = motd.replaceAll("&", "\u00A7"); // Replaces & with \u00A7 so the MOTD supports colors.
+        e.setMotd(motd); // Sets MOTD.
 		
 	}
 }
